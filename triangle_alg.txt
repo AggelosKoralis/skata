@@ -1,0 +1,12 @@
+find the point whose y val is between the other 2.
+
+if it exists
+    find the line equations connecting the point whose y val is the smallest to the point in the middle and the line connecting the min y point to the remaining point.
+    iterate on y from min y to middle y and paint only under the lines of the previous step
+
+    then, do the same for the point with max y and paint until the y is equal the middle point's y.
+
+if it doesnt exist
+    it means that one side is parallel to the x axis
+    find the point that is on a dffernet y level and paint starting from that up until you reach the parallel side.
+    note that the point you start at could be above or below the parallel side.
