@@ -28,7 +28,7 @@ int save_to_file(uint32_t *pix, size_t w, size_t h, char *fname) {
 
     for (size_t i = 0; i < w * h; i++) {
         // 0xBBGGRR
-        uint8_t bytes[3] = { (pix[i] >> (8 * 0))& 0xFF, 
+        uint8_t bytes[3] = { (pix[i] >> (8 * 0)) & 0xFF, 
                              (pix[i] >> (8 * 1)) & 0xFF, 
                              (pix[i] >> (8 * 2)) & 0xFF };
        
@@ -69,11 +69,10 @@ int circle(uint32_t *pix, size_t w, size_t h, Point center, size_t r, uint32_t c
 }
 
 
-// PARALLEL TO THE X AXIS MAYBE I NEED TO SPECIFY THAT
 // parallel side equation: y = a
 // if there is a parallel side, return a
 // else return -1
-int parallel_side(Point p[3]) {
+int parallel_side_to_xaxis(Point p[3]) {
     int ret = -1;
     
     if (p[0].y == p[1].y) ret = p[0].y;
@@ -101,7 +100,25 @@ Point maxy(Point p[3]) {
     return m_y;
 }
 
+void swap_points(Point *p1, Point *p2) {
+    Point *temp = p1;
+    p1 = p2;
+    p2 = temp;
+}
 
+// ascending
+void sort_points_by_y(Point p[3]) {
+    for (int i = 0; i < 2; i++) {
+        int min_idx = i;
+
+        for (int j = i + 1; j < 3; j++)
+            if (p[j].y < p[min_idx].y) min_idx = j;
+
+        swap_points(&p[i], &p[min_idx]);
+    }
+}
+
+/*
 int triangle(uint32_t *pix, size_t w, size_t h, Point points[3], uint32_t color) {
     
     if (!(valid_point(w, h, points[0]) && 
@@ -109,10 +126,24 @@ int triangle(uint32_t *pix, size_t w, size_t h, Point points[3], uint32_t color)
           valid_point(w, h, points[2])))
         return -1;
    
+    sort_points_by_y(points);
+
+    Point miny, midy, maxy;
+
+
+    int prl_side_height;
+    if ((prl_side_height = parallel_side_to_xaxis(points)) != -1) {
+        for (int _y = points[0].y; _y < points[2].y; _y++) {
+            
+        }
+
+    }
+
+
     return 0;
 
 }
-
+*/
 
 int main() {
     
@@ -141,6 +172,15 @@ int main() {
 
     Line ln2 = {0, HEIGHT/2};
     draw_line(pixels, WIDTH, HEIGHT, ln2, line_color);
+
+    // triangle outline
+    Point p1 = {250, 100};
+    Point p2 = {100, 350};
+    Point p3 = {300, 250};
+    draw_line_section(pixels, WIDTH, HEIGHT, p1, p2, 0xFFFFFFFF);
+    draw_line_section(pixels, WIDTH, HEIGHT, p1, p3, 0xFFFFFFFF);
+    draw_line_section(pixels, WIDTH, HEIGHT, p2, p3, 0xFFFFFFFF);
+
 
     if (save_to_file(pixels, WIDTH, HEIGHT, "out.ppm") == -1) return -1;
 
