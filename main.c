@@ -162,21 +162,21 @@ int main() {
     
     size_t radius = 120;
     Point center = {WIDTH/2, HEIGHT/2};
-    circle(pixels, WIDTH, HEIGHT, center, radius, 0xFFFFFF00);
+    circle(pixels, WIDTH, HEIGHT, center, radius, 0xFFFFbF00);
 
     //draw_checker(pixels, WIDTH, HEIGHT, 10, 10, 0xFF000000);
 
-    Line ln = {1, 0};
+    Line ln = {1.0, 0.0};
     uint32_t line_color = 0xFF0000FF;
     draw_line(pixels, WIDTH, HEIGHT, ln, line_color);
 
-    Line ln2 = {0, HEIGHT/2};
+    Line ln2 = {0.0, (float)HEIGHT/2};
     draw_line(pixels, WIDTH, HEIGHT, ln2, line_color);
 
     // triangle outline
-    Point p1 = {250, 100};
-    Point p2 = {100, 350};
-    Point p3 = {300, 250};
+    Point p1 = {100, 180};
+    Point p2 = {230, 330};
+    Point p3 = {150, 150};
     draw_line_section(pixels, WIDTH, HEIGHT, p1, p2, 0xFFFFFFFF);
     draw_line_section(pixels, WIDTH, HEIGHT, p1, p3, 0xFFFFFFFF);
     draw_line_section(pixels, WIDTH, HEIGHT, p2, p3, 0xFFFFFFFF);

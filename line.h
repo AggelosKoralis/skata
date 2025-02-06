@@ -7,8 +7,8 @@
 #include "point.h"
 
 typedef struct line {
-    int a;
-    int b;
+    float a;
+    float b;
 } Line;
 
 

@@ -18,8 +18,21 @@ int draw_line_section(uint32_t *pixels, size_t width, size_t height, Point p1, P
 
     int a, b;
     
-    if (p1.x == p2.x) {a = 0;}
-    else a = (p2.y - p1.y) / (p2.x - p1.x);
+    float dx = p2.x - p1.x;
+    float dy = p2.y - p1.y;
+
+    if (p1.x == p2.x) { 
+        // plot vertical line
+        int starty = p2.y, endy = p1.y;
+        if (p1.y < p2.y) {starty = p1.y; endy = p2.y;}
+
+        for (int _y = starty; _y < endy; _y++)
+            pixels[_y * width + p1.x] = color;
+
+        return 0;
+    }
+    else 
+        a = dy / dx;
 
     b = p1.y - a * p1.x;
 
