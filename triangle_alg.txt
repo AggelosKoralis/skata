@@ -10,3 +10,7 @@ if it doesnt exist
     it means that one side is parallel to the x axis
     find the point that is on a dffernet y level and paint starting from that up until you reach the parallel side.
     note that the point you start at could be above or below the parallel side.
+
+
+
+mallon einai pio sofo na psaksw apla enan algorithmo sto internet
