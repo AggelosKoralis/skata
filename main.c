@@ -7,8 +7,8 @@
 #include "line.h"
 #include "rectangle.h"
 
-#define WIDTH 400
-#define HEIGHT 400
+#define WIDTH 256 * 2
+#define HEIGHT 256 * 2
 
 // canvas
 uint32_t pixels[HEIGHT * WIDTH];
@@ -37,6 +37,29 @@ int save_to_file(uint32_t *pix, size_t w, size_t h, char *fname) {
     
     fclose(f);
     return 0;
+}
+
+
+void gradient(uint32_t *pix, size_t w, size_t h) {
+    
+    for (size_t y = 0; y < h; y++) {
+        for (size_t x = 0; x < w; x++) {                            
+            uint16_t left = y;
+            uint16_t right = x;
+            
+           /* uint8_t bytes[3] = {
+                                (left >> 4) & 0xFF,
+                                (right >> 4) & 0xFF,
+                                (right >> 4) & 0xFF
+                               };
+            
+            */
+
+            uint32_t color = (((left * 255) / h) << 16) | ((((left + right)) / (w + h)) << 8) | (((right * 255) / w) << 0);
+            //uint32_t color = (bytes[0] << 8) | (bytes[1] << 0) | (bytes[2] << 0);
+            pixels[y * w + x] = color;
+        }
+    }
 }
 
 
@@ -146,6 +169,8 @@ int triangle(uint32_t *pix, size_t w, size_t h, Point points[3], uint32_t color)
 */
 
 int main() {
+
+#if 0
     
     // 0xaaBBGGRR
     fill(pixels, WIDTH, HEIGHT, 0xFFF06090);
@@ -180,6 +205,10 @@ int main() {
     draw_line_section(pixels, WIDTH, HEIGHT, p1, p2, 0xFFFFFFFF);
     draw_line_section(pixels, WIDTH, HEIGHT, p1, p3, 0xFFFFFFFF);
     draw_line_section(pixels, WIDTH, HEIGHT, p2, p3, 0xFFFFFFFF);
+
+#endif
+
+    gradient(pixels, WIDTH, HEIGHT);
 
 
     if (save_to_file(pixels, WIDTH, HEIGHT, "out.ppm") == -1) return -1;
