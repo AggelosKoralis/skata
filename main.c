@@ -1,43 +1,14 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <math.h>
 
 #include "point.h"
-#include "line.h"
-#include "rectangle.h"
-
-#define WIDTH 256 * 2
-#define HEIGHT 256 * 2
-
-// canvas
-uint32_t pixels[HEIGHT * WIDTH];
+// #include "line.h"
+// #include "rectangle.h"
+#include "canvas.h"
 
 
-void fill(uint32_t *pix, size_t w, size_t h, uint32_t color) {
-    for (size_t i = 0; i < h * w; i++)
-        pix[i] = color;
-}
-
-int save_to_file(uint32_t *pix, size_t w, size_t h, char *fname) {
-    
-    FILE *f = fopen(fname, "wb");
-    if (!f) return -1;
-
-    fprintf(f, "P6\n%zu %zu\n255\n", w, h);
-
-    for (size_t i = 0; i < w * h; i++) {
-        // 0xBBGGRR
-        uint8_t bytes[3] = { (pix[i] >> (8 * 0)) & 0xFF, 
-                             (pix[i] >> (8 * 1)) & 0xFF, 
-                             (pix[i] >> (8 * 2)) & 0xFF };
-       
-        if (fwrite(bytes, sizeof(bytes), 1, f) != 1) return -1;
-    }
-    
-    fclose(f);
-    return 0;
-}
+extern uint32_t pixels[HEIGHT * WIDTH];
 
 
 void gradient(uint32_t *pix, size_t w, size_t h) {
@@ -71,22 +42,19 @@ int valid_circle(size_t w, size_t h, Point center, size_t r) {
     (center.y + r <= h);
 }
 
-int on_disk(Point center, size_t r, size_t _x, size_t _y) {
-    return 
-    sqrt(
-        pow((int)_x - (int)center.x, 2) + 
-        pow((int)_y - (int)center.y, 2)
-        ) <= r;
-}
-
 int circle(uint32_t *pix, size_t w, size_t h, Point center, size_t r, uint32_t color) {
     
     if (!valid_circle(w, h, center, r)) return -1;
     
-    for (size_t _y = (center.y - r); _y < (center.y + r); _y++) 
-        for (size_t _x = (center.x - r); _x < (center.x + r); _x++)
-            if (on_disk(center, r, _x, _y)) 
-                pix[_y * w + _x] = color;
+    Point p;
+
+    for (size_t _y = (center.y - r); _y < (center.y + r); _y++) {
+        for (size_t _x = (center.x - r); _x < (center.x + r); _x++){
+            p.x = _x;
+            p.y = _y;
+            if (on_disk(center, r, p)) pix[_y * w + _x] = color;
+        }
+    }
 
     return 0;
 }
