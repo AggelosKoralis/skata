@@ -12,6 +12,6 @@ typedef struct point {
 
 
 int valid_point(size_t width, size_t height, Point p);
-
+int on_disk(Point center, size_t r, Point p);
 
 #endif
