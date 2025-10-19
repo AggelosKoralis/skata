@@ -2,4 +2,4 @@ loipon
 
 
 
-![image info](./pictures/blue_red_gradient.png)
+![image info](./images/blue_red_gradient.png)
