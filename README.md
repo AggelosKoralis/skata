@@ -8,7 +8,6 @@ loipon
 fill(pixels, WIDTH, HEIGHT, 0xebac4e);
 Point p = {WIDTH / 2, HEIGHT / 2};
 circle(pixels, WIDTH, HEIGHT, p, 164, 0x111806);
-draw_checker(pixels, WIDTH, HEIGHT, 8, 8, 0xfb01d2);
 circle(pixels, WIDTH, HEIGHT, p, 102, 0x39b31b);
 draw_checker(pixels, WIDTH, HEIGHT, 8, 8, 0xfb01d2);
 
