@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -136,7 +137,40 @@ int triangle(uint32_t *pix, size_t w, size_t h, Point points[3], uint32_t color)
 }
 */
 
-int main() {
+int main(int argc, char **argv) {
+    uint32_t color;
+
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0] == '-') {
+            // read falgs
+
+            if (strlen(argv[i]) != 2) return 1;
+            
+            switch (argv[i][1]) {
+            case 'g': // gradient
+                
+                gradient(pixels, WIDTH, HEIGHT);
+                break;
+            case 'f': // fill
+                color = (i + 1 < argc) ? atoi(argv[i + 1]) : 0;
+                fill(pixels, WIDTH, HEIGHT, color);
+                break;
+            case 'c': // circle
+                break;
+            case 'r': // rectangle
+                break;
+            case 't': // triangle
+                break;
+            case 'x': // checkerboard
+                break;
+            case 'i': // in file
+                break;
+            case 'o': // out file
+                break;
+            }
+        
+        }
+    }
 
 #if 0
     
@@ -175,9 +209,6 @@ int main() {
     draw_line_section(pixels, WIDTH, HEIGHT, p2, p3, 0xFFFFFFFF);
 
 #endif
-
-    gradient(pixels, WIDTH, HEIGHT);
-
 
     if (save_to_file(pixels, WIDTH, HEIGHT, "out.ppm") == -1) return -1;
 
